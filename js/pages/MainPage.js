@@ -131,6 +131,7 @@ export default class MainPage {
                     this.clean();
                     this._lastPost++;
                     this.loadMorePosts(0, this._lastPost);
+                    this.getFirstPost();
                 },
                 error => {
                     this.showError(error);
@@ -138,8 +139,20 @@ export default class MainPage {
         });
         this.loadMorePosts(this._lastPost, this._postsCount);
         this._lastPost += this._postsCount;
+        this.getFirstPost();
 
         this.pollNewPosts();
+    }
+
+    getFirstPost() {
+        this._context.get("/posts", {},
+            text => {
+                const id = JSON.parse(text);
+                this._firstPostId = id;
+            },
+            error => {
+                this.showError(error);
+            });
     }
 
     clean() {
@@ -151,9 +164,6 @@ export default class MainPage {
         this._context.get("/posts" + str, {},
             text => {
                 const posts = JSON.parse(text);
-                if (lastPost === 0) {
-                    this._firstPostId = posts[0].id;
-                }
                 this.loadNewList(posts);
             },
             error => {
@@ -273,8 +283,9 @@ export default class MainPage {
 
     pollNewPosts() {
         this._timeout = setTimeout(() => {
-            this.newPostsDetected();
-            //this.loadAll();
+            if (!this._created) {
+                this.newPostsDetected();
+            }
             this.pollNewPosts();
         }, 5000);
     }
@@ -283,9 +294,9 @@ export default class MainPage {
         const str = "?first=" + this._firstPostId;
         this._context.get("/posts" + str, {},
             text => {
-                const newPosts = JSON.parse(text);
-                if (newPosts > 0) {
-                    this.newPostsAnnotation(newPosts);
+                const count = JSON.parse(text);
+                if (count > 0) {
+                    this.newPostsAnnotation(count);
                 }
             },
             error => {
@@ -293,20 +304,25 @@ export default class MainPage {
             });
     }
 
-    newPostsAnnotation(newPosts) {
+    newPostsAnnotation(count) {
+        this._newPostsEl.innerHTML = '';
         const newPostEl = document.createElement('div');
         newPostEl.className = 'col-4';
         newPostEl.innerHTML = `
     <div class="card mt-2">
     <div class="card-body">
               <div class="col text-center">
-                <a href="#" data-action="new-posts" class="btn btn-sm btn-primary">Upload new posts</a>
+                <a href="#" data-action="new-posts" class="btn btn-sm btn-primary">Upload ${count} new posts</a>
               </div>
               </div>
         </div>`;
         newPostEl.querySelector('[data-action=new-posts]').addEventListener('click', evt => {
             evt.preventDefault();
-            ;
+            this._newPostsEl.removeChild(newPostEl);
+            this.clean();
+            this._lastPost += count;
+            this.loadMorePosts(0, this._lastPost);
+            this.getFirstPost();
         });
         this._newPostsEl.appendChild(newPostEl);
     }
