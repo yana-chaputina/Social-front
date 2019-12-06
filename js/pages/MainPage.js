@@ -283,9 +283,7 @@ export default class MainPage {
 
     pollNewPosts() {
         this._timeout = setTimeout(() => {
-            if (!this._created) {
-                this.newPostsDetected();
-            }
+            this.newPostsDetected();
             this.pollNewPosts();
         }, 5000);
     }
@@ -297,6 +295,8 @@ export default class MainPage {
                 const count = JSON.parse(text);
                 if (count > 0) {
                     this.newPostsAnnotation(count);
+                } else {
+                    this._newPostsEl.innerHTML = '';
                 }
             },
             error => {
