@@ -1,0 +1,25 @@
+{
+  "name": "front",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "live-server --entry-file=index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coursar/rosbank-frontend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/coursar/rosbank-frontend/issues"
+  },
+  "homepage": "https://github.com/coursar/rosbank-frontend#readme",
+  "dependencies": {
+    "live-server": "^1.2.1"
+  },
+  "engines": {
+    "node": "12.x"
+  }
+}
