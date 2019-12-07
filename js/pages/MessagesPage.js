@@ -140,7 +140,7 @@ export default class MessagesPage {
     disconnect() {
         if (this._websocket !== null) {
             try {
-                this._websocket.close(100);
+                this._websocket.close(1000);
                 this._websocket = null;
             } catch (e) {
                 console.error(e);

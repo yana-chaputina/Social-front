@@ -131,6 +131,7 @@ export default class MainPage {
                     this.clean();
                     this._lastPost++;
                     this.loadMorePosts(0, this._lastPost);
+                    this._newPostsEl.innerHTML = '';
                     this.getFirstPost();
                 },
                 error => {
@@ -295,8 +296,6 @@ export default class MainPage {
                 const count = JSON.parse(text);
                 if (count > 0) {
                     this.newPostsAnnotation(count);
-                } else {
-                    this._newPostsEl.innerHTML = '';
                 }
             },
             error => {
