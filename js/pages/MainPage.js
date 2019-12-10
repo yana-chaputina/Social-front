@@ -265,13 +265,13 @@ export default class MainPage {
             const loadPostEl = document.createElement('div');
             loadPostEl.className = 'col-4';
             loadPostEl.innerHTML = `
-    <div class="card mt-2">
-    <div class="card-body">
-              <div class="col text-center">
+            <div class="card mt-2">
+              <div class="card-body">
+               <div class="col text-center">
                 <a href="#" data-action="upload-posts" class="btn btn-sm btn-primary">Upload more posts</a>
+               </div>
               </div>
-              </div>
-        </div>`;
+            </div>`;
             loadPostEl.querySelector('[data-action=upload-posts]').addEventListener('click', evt => {
                 evt.preventDefault();
                 this._postsContainerEl.removeChild(loadPostEl);
