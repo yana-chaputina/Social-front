@@ -25,11 +25,13 @@ const translations = {
         'error.network': 'Ошибка сети. Проверьте подключение',
         'error.unknown': 'Неизвестная ошибка',
         'error.message_send': 'Не удалось отправить сообщение',
+        'error.bad_filetype': "Неправильный формат файла",
     },
     en: {
         'error.network': 'Network error',
         'error.unknown': 'Unknown error',
         'error.message_send': 'Can\'t send message',
+        'error.bad_filetype': "Invalid file type"
     }
 };
 

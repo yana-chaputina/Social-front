@@ -5,7 +5,7 @@ export default class MainPage {
         this._rootEl = context.rootEl();
         this._firstPostId = 0;
         this._lastPost = 0;
-        this._postsCount = 5;
+        this._postsCount = 3;
     }
 
     init() {
@@ -128,6 +128,7 @@ export default class MainPage {
                     this._contentInputEl.value = '';
                     this._mediaNameInputEl.value = '';
                     this._mediaInputEl.value = '';
+
                     this.clean();
                     this._lastPost++;
                     this.loadMorePosts(0, this._lastPost);
@@ -161,7 +162,7 @@ export default class MainPage {
     }
 
     loadMorePosts(lastPost, step) {
-        const str = "?last=" + lastPost + "&step=" + step;
+        const str = "?lastPost=" + lastPost + "&step=" + step;
         this._context.get("/posts" + str, {},
             text => {
                 const posts = JSON.parse(text);
@@ -191,10 +192,10 @@ export default class MainPage {
               <video src="${this._context.mediaUrl()}/${post.media}" class="embed-responsive-item" controls>
             </div>
           `;
-                } else if (post.media.endsWith('.mp3')) {
+                } else if (post.media.endsWith('.mpeg')) {
                     postMedia = `
             <div class = "card-img-topcard-img-top embed-responsive embed-responsive-16by9 mb-2">
-              <audio src = "${item.value}" class = "embed-responsive-item" controls>
+              <audio src = src="${this._context.mediaUrl()}/${post.media}" class = "embed-responsive-item" controls>
             </div>
           `;
                 }
@@ -205,6 +206,8 @@ export default class MainPage {
           ${postMedia}
           <div class="card-body">
             <p class="card-text">${post.content}</p>
+            <p class="card-text">${post.authorName}</p>
+            <p class="card-text">${post.created}</p>
             <p class="card-text">Likes: ${post.likes}</p>
           </div>
           <div class="card-footer">
@@ -290,7 +293,7 @@ export default class MainPage {
     }
 
     newPostsDetected() {
-        const str = "?first=" + this._firstPostId;
+        const str = "?firstPostId=" + this._firstPostId;
         this._context.get("/posts" + str, {},
             text => {
                 const count = JSON.parse(text);
